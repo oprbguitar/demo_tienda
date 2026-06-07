@@ -18,7 +18,7 @@ export function ColorPalette({ options, selected, onChange, compact = false }: C
           aria-label={color.name}
           className={`rounded-lg border text-left transition ${
             selected === color.name ? "border-blue-700 ring-2 ring-blue-100" : "border-slate-200 hover:border-blue-300"
-          } ${compact ? "h-12 w-12 p-1" : "p-2"}`}
+          } ${compact ? "h-9 w-9 p-1" : "p-2"}`}
         >
           <span className={`grid place-items-center rounded-md ${compact ? "h-full" : "h-16"}`} style={{ backgroundColor: color.hex }}>
             {selected === color.name ? <Check className="text-blue-950 drop-shadow" size={20} /> : null}

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Bookmark, ClipboardList, Headphones, LockKeyhole, Plus, Ruler } from "lucide-react";
+import { Bookmark, ClipboardList, LockKeyhole, Plus, Ruler } from "lucide-react";
 import { ColorPalette } from "@/components/ColorPalette";
 import { Garment3DViewer } from "@/components/Garment3DViewer";
 import { colors } from "@/data/colors";
@@ -33,6 +33,7 @@ export function Configurator({ garment, title, subtitle, options, basePrice }: C
   );
   const [selection, setSelection] = useState<Selection>(defaults);
   const [hydrated, setHydrated] = useState(false);
+  const [activeField, setActiveField] = useState(Object.keys(options)[0] ?? "");
 
   useEffect(() => {
     queueMicrotask(() => {
@@ -51,36 +52,41 @@ export function Configurator({ garment, title, subtitle, options, basePrice }: C
   const estimatedPrice = Math.round(basePrice * (selectedFabric?.priceFactor ?? 1) * 10) / 10;
   const displayName = garment === "sport" ? selection.prenda ?? "Sport" : garment === "pantalon" ? "Pantalón" : "Camisa";
   const colorOptions = colors.filter((color) => color.garment === garment || color.garment === "ambos").map((color) => ({ name: color.name, hex: color.hex }));
+  const visibleOptionEntries = getPrimaryOptionEntries(garment, options);
 
   function setValue(field: string, value: string) {
+    setActiveField(field);
     setSelection((current) => ({ ...current, [field]: value }));
   }
 
   return (
-    <main className="mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8">
-      <div className="grid gap-6 xl:grid-cols-[250px_minmax(0,1fr)_340px]">
-        <StepRail garment={garment} selection={selection} />
+    <main className="mx-auto h-[calc(100vh-56px)] max-w-[1500px] overflow-hidden px-3 py-3 sm:px-5 lg:px-6">
+      <div className="grid h-full gap-4 xl:grid-cols-[230px_minmax(0,1fr)_310px]">
+        <StepRail garment={garment} selection={selection} activeField={activeField} />
 
-        <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
-          <div className="flex flex-col gap-5 border-b border-slate-200 pb-6 lg:flex-row lg:items-center lg:justify-between">
+        <section className="min-h-0 overflow-hidden rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="flex gap-4 border-b border-slate-200 pb-3 lg:items-start lg:justify-between">
             <div>
               <Link href="/" className="text-sm font-bold text-slate-500 hover:text-blue-700">← Volver</Link>
-              <h1 className="mt-5 text-3xl font-black tracking-tight text-slate-950">{title}</h1>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">{subtitle}</p>
+              <h1 className="mt-2 text-2xl font-black tracking-tight text-slate-950">{title}</h1>
+              <p className="mt-1 max-w-2xl text-sm leading-5 text-slate-600">{subtitle}</p>
             </div>
-            <button className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-slate-200 px-5 text-sm font-black text-blue-700 shadow-sm hover:border-blue-300 hover:bg-blue-50">
-              <Bookmark size={20} /> Guardar diseño
+            <button className="hidden h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 text-sm font-black text-blue-700 shadow-sm hover:border-blue-300 hover:bg-blue-50 lg:inline-flex">
+              <Bookmark size={17} /> Guardar
             </button>
           </div>
 
-          <div className="grid gap-7 py-6 lg:grid-cols-[minmax(280px,0.92fr)_minmax(280px,1fr)]">
+          <div className="grid min-h-0 gap-5 py-4 lg:grid-cols-[minmax(260px,0.86fr)_minmax(320px,1fr)]">
             <section className="lg:border-r lg:border-slate-200 lg:pr-7">
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <h2 className="text-xl font-black text-slate-950">Vista previa</h2>
-                <span className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-sm font-bold text-slate-600">
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <h2 className="text-lg font-black text-slate-950">Vista previa</h2>
+                <span className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-xs font-bold text-slate-600">
                   {selection.color}
                   <span className="h-3 w-3 rounded-full" style={{ backgroundColor: colorHex }} />
                 </span>
+              </div>
+              <div className="mb-2">
+                <ColorPalette options={colorOptions} selected={selection.color} onChange={(value) => setValue("color", value)} compact />
               </div>
               <Garment3DViewer
                 garment={garment}
@@ -89,13 +95,10 @@ export function Configurator({ garment, title, subtitle, options, basePrice }: C
                 fabric={selection.tela}
                 productName={selection.prenda}
               />
-              <p className="mt-5 text-xs leading-5 text-slate-500">
-                La vista previa es referencial. El resultado final puede variar según tela, caída y confección.
-              </p>
             </section>
 
-            <section className="space-y-5">
-              {Object.entries(options).map(([field, values]) => (
+            <section className="min-h-0 space-y-3">
+              {visibleOptionEntries.map(([field, values]) => (
                 <OptionGroup
                   key={field}
                   field={field}
@@ -104,16 +107,14 @@ export function Configurator({ garment, title, subtitle, options, basePrice }: C
                   colorOptions={colorOptions}
                   colorHex={colorHex}
                   onChange={(value) => setValue(field, value)}
+                  onActivate={() => setActiveField(field)}
                 />
               ))}
-              <button className="flex h-11 items-center justify-center gap-2 text-sm font-black text-blue-700">
-                Ver más opciones de confección <Plus size={17} />
-              </button>
             </section>
           </div>
 
-          <div className="flex justify-center border-t border-slate-200 pt-6">
-            <Link href="/medidas" className="inline-flex h-12 min-w-80 items-center justify-center gap-2 rounded-lg bg-blue-700 px-6 text-sm font-black text-white shadow-sm hover:bg-blue-800">
+          <div className="flex justify-center border-t border-slate-200 pt-3">
+            <Link href="/medidas" className="inline-flex h-10 min-w-72 items-center justify-center gap-2 rounded-lg bg-blue-700 px-6 text-sm font-black text-white shadow-sm hover:bg-blue-800">
               Continuar a medidas <Ruler size={17} />
             </Link>
           </div>
@@ -131,6 +132,18 @@ export function Configurator({ garment, title, subtitle, options, basePrice }: C
   );
 }
 
+function getPrimaryOptionEntries(garment: GarmentType, options: Options) {
+  const fieldsByGarment: Record<GarmentType, string[]> = {
+    camisa: ["uso", "corte", "tela", "cuello"],
+    pantalon: ["tipo", "corte", "tiro", "tela"],
+    sport: ["prenda", "uso", "corte", "tela"],
+  };
+
+  return fieldsByGarment[garment]
+    .filter((field) => options[field])
+    .map((field) => [field, options[field]] as [string, string[]]);
+}
+
 function sanitizeSelection(selection: Selection, options: Options, defaults: Selection) {
   return Object.fromEntries(
     Object.entries(defaults).map(([field, fallback]) => {
@@ -141,33 +154,23 @@ function sanitizeSelection(selection: Selection, options: Options, defaults: Sel
   ) as Selection;
 }
 
-function StepRail({ garment, selection }: { garment: GarmentType; selection: Selection }) {
+function StepRail({ garment, selection, activeField }: { garment: GarmentType; selection: Selection; activeField: string }) {
   return (
-    <aside className="hidden rounded-lg border border-slate-200 bg-white p-5 shadow-sm xl:block">
+    <aside className="hidden min-h-0 overflow-hidden rounded-lg border border-slate-200 bg-white p-4 shadow-sm xl:block">
       <h2 className="font-black text-slate-950">Diseña tu {garment === "sport" ? "sport" : garment}</h2>
-      <ol className="mt-6 space-y-4">
+      <ol className="mt-4 space-y-2.5">
         {Object.entries(selection).map(([key, value], index) => (
-          <li key={key} className="flex gap-3">
-            <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-full border text-sm font-black ${index === 0 ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-slate-50 text-slate-900"}`}>
+          <li key={key} className="flex gap-2.5">
+            <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border text-xs font-black ${activeField === key ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-slate-50 text-slate-900"}`}>
               {index + 1}
             </span>
-            <span>
-              <span className="block text-sm font-black capitalize text-slate-950">{key}</span>
-              <span className="block text-sm leading-5 text-slate-500">{value}</span>
+            <span className="min-w-0">
+              <span className={`block text-sm font-black capitalize ${activeField === key ? "text-blue-800" : "text-slate-950"}`}>{key}</span>
+              <span className="block truncate text-sm leading-4 text-slate-500">{value}</span>
             </span>
           </li>
         ))}
       </ol>
-      <div className="mt-8 rounded-lg bg-cyan-50 p-4 text-sm text-slate-700">
-        <div className="flex items-center justify-between gap-3">
-          <p className="font-black text-slate-950">¿Necesitas ayuda?</p>
-          <Headphones className="text-blue-700" size={20} />
-        </div>
-        <p className="mt-2 leading-6">Un proveedor podrá validar tus medidas antes de cortar la tela.</p>
-        <button className="mt-4 h-10 w-full rounded-lg border border-slate-200 bg-white text-sm font-black text-blue-700">
-          Contactar proveedor
-        </button>
-      </div>
     </aside>
   );
 }
@@ -179,6 +182,7 @@ function OptionGroup({
   colorOptions,
   colorHex,
   onChange,
+  onActivate,
 }: {
   field: string;
   values: string[];
@@ -186,22 +190,23 @@ function OptionGroup({
   colorOptions: { name: string; hex: string }[];
   colorHex: string;
   onChange: (value: string) => void;
+  onActivate: () => void;
 }) {
   return (
-    <section className="border-b border-slate-200 pb-5 last:border-b-0">
-      <div className="mb-3 flex items-center justify-between gap-4">
-        <h2 className="text-lg font-black capitalize text-slate-950">{field}</h2>
+    <section className="border-b border-slate-200 pb-3 last:border-b-0" onMouseEnter={onActivate}>
+      <div className="mb-2 flex items-center justify-between gap-4">
+        <h2 className="text-base font-black capitalize text-slate-950">{field}</h2>
         <span className="text-sm font-semibold text-slate-500">{selected}</span>
       </div>
       {field === "color" ? (
         <div className="flex items-center gap-3">
           <ColorPalette options={colorOptions} selected={selected} onChange={onChange} compact />
-          <button className="grid h-12 w-12 place-items-center rounded-lg border border-slate-200 text-slate-800">
+          <button className="hidden h-10 w-10 place-items-center rounded-lg border border-slate-200 text-slate-800">
             <Plus size={18} />
           </button>
         </div>
       ) : field === "tela" ? (
-        <div className="grid gap-3 sm:grid-cols-2 2xl:grid-cols-4">
+        <div className="grid gap-2 sm:grid-cols-2 2xl:grid-cols-4">
           {values.slice(0, 4).map((value) => {
             const fabric = fabrics.find((item) => item.name === value);
             return (
@@ -209,26 +214,26 @@ function OptionGroup({
                 key={value}
                 type="button"
                 onClick={() => onChange(value)}
-                className={`rounded-lg border bg-white p-2 text-left text-xs font-bold transition ${selected === value ? "border-blue-700 text-blue-700 ring-2 ring-blue-100" : "border-slate-200 text-slate-700 hover:border-blue-300"}`}
+                className={`min-w-0 rounded-lg border bg-white p-2 text-left text-[11px] font-bold leading-4 transition ${selected === value ? "border-blue-700 text-blue-700 ring-2 ring-blue-100" : "border-slate-200 text-slate-700 hover:border-blue-300"}`}
               >
                 <span
-                  className="mb-2 block h-14 rounded-md"
+                  className="mb-1.5 block h-9 rounded-md"
                   style={getFabricTextureStyle(colorHex, value)}
                 />
                 {value}
-                <span className="mt-1 block text-[11px] font-medium leading-4 text-slate-500">{fabric?.climate}</span>
+                <span className="mt-0.5 block truncate text-[10px] font-medium leading-3 text-slate-500">{fabric?.climate}</span>
               </button>
             );
           })}
         </div>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2 2xl:grid-cols-4">
+        <div className="grid gap-2 sm:grid-cols-2 2xl:grid-cols-4">
           {values.map((value) => (
             <button
               key={value}
               type="button"
               onClick={() => onChange(value)}
-              className={`min-h-11 rounded-lg border px-3 py-2 text-center text-sm font-black transition ${selected === value ? "border-blue-700 bg-white text-blue-700 ring-2 ring-blue-100" : "border-slate-200 bg-white text-slate-800 hover:border-blue-300 hover:bg-blue-50"}`}
+              className={`min-h-10 min-w-0 overflow-hidden rounded-lg border px-2 py-1.5 text-center text-[12px] font-black leading-tight transition ${selected === value ? "border-blue-700 bg-white text-blue-700 ring-2 ring-blue-100" : "border-slate-200 bg-white text-slate-800 hover:border-blue-300 hover:bg-blue-50"}`}
             >
               {value}
             </button>
@@ -255,11 +260,11 @@ function SummaryPanel({
   const summaryAsset = getGarmentViewAssetByView(garment, selection.color ?? "gray", "front-3q-right");
 
   return (
-    <aside className="xl:sticky xl:top-24 xl:self-start">
-      <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <aside className="hidden min-h-0 xl:block">
+      <div className="max-h-full overflow-hidden rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
         <h2 className="text-lg font-black text-slate-950">Resumen de tu prenda</h2>
-        <div className="mt-4 flex gap-3 rounded-lg bg-slate-50 p-3">
-          <span className="relative h-28 w-28 shrink-0 overflow-hidden rounded-lg bg-white shadow-sm">
+        <div className="mt-3 flex gap-3 rounded-lg bg-slate-50 p-2.5">
+          <span className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-white shadow-sm">
             <Image
               src={summaryAsset.path}
               alt={`Vista resumida de ${displayName}`}
@@ -268,15 +273,15 @@ function SummaryPanel({
               className="scale-125 object-contain"
             />
           </span>
-          <div className="min-w-0 py-2">
-            <p className="text-xl font-black capitalize text-slate-950">{displayName}</p>
+          <div className="min-w-0 py-1">
+            <p className="text-lg font-black capitalize text-slate-950">{displayName}</p>
             <p className="mt-1 text-sm text-slate-500">{selection.uso ?? selection.tipo} · {selection.corte}</p>
-            <p className="mt-2 text-xl font-black text-blue-950">S/ {estimatedPrice.toFixed(2)}</p>
+            <p className="mt-1 text-xl font-black text-blue-950">S/ {estimatedPrice.toFixed(2)}</p>
           </div>
         </div>
-        <dl className="mt-5 space-y-3">
+        <dl className="mt-3 space-y-1.5">
           {Object.entries(selection).map(([key, value]) => (
-            <div key={key} className="flex justify-between gap-4 border-b border-slate-100 pb-2 text-sm">
+            <div key={key} className="flex justify-between gap-4 border-b border-slate-100 pb-1.5 text-sm">
               <dt className="font-bold capitalize text-slate-500">{key}</dt>
               <dd className="flex items-center gap-2 text-right font-semibold text-slate-900">
                 {key === "color" ? <span className="h-3 w-3 rounded-full" style={{ backgroundColor: colorHex }} /> : null}
@@ -285,25 +290,17 @@ function SummaryPanel({
             </div>
           ))}
         </dl>
-        <div className="mt-5 rounded-lg bg-cyan-50 p-4 text-center">
-          <p className="text-sm font-bold text-slate-600">Precio estimado</p>
-          <p className="text-3xl font-black text-blue-950">S/ {estimatedPrice.toFixed(2)}</p>
-          <p className="mt-1 text-xs text-slate-500">El precio final puede variar según el taller.</p>
-        </div>
-        <div className="mt-4 grid gap-3">
-          <Link href="/medidas" className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 text-sm font-black text-white hover:bg-blue-800">
+        <div className="mt-3 grid gap-2">
+          <Link href="/medidas" className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 text-sm font-black text-white hover:bg-blue-800">
             Continuar a medidas <Ruler size={17} />
           </Link>
-          <Link href="/cotizaciones" className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 text-sm font-black text-slate-950 hover:bg-slate-50">
+          <Link href="/cotizaciones" className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 text-sm font-black text-slate-950 hover:bg-slate-50">
             Ver cotizaciones <ClipboardList size={17} />
           </Link>
         </div>
-        <p className="mt-4 flex items-center justify-center gap-2 text-xs font-semibold text-slate-500">
+        <p className="mt-3 flex items-center justify-center gap-2 text-xs font-semibold text-slate-500">
           <LockKeyhole size={14} /> Tus datos se guardan temporalmente en este dispositivo.
         </p>
-      </div>
-      <div className="mt-4 rounded-lg border border-emerald-100 bg-emerald-50 p-4 text-sm text-emerald-900">
-        La estructura queda lista para conectar clientes, proveedores y pedidos a Supabase más adelante.
       </div>
     </aside>
   );

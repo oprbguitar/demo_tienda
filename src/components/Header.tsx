@@ -12,14 +12,14 @@ const navItems = [
 export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/92 backdrop-blur">
-      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3">
-          <span className="grid h-11 w-11 place-items-center rounded-lg border border-blue-100 bg-blue-50 text-blue-950">
-            <Ruler size={24} strokeWidth={2.2} />
+          <span className="grid h-9 w-9 place-items-center rounded-lg border border-blue-100 bg-blue-50 text-blue-950">
+            <Ruler size={21} strokeWidth={2.2} />
           </span>
           <span>
-            <span className="block text-lg font-black tracking-wide text-slate-950">PrendaExacta</span>
-            <span className="block text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">Hecho en Lima</span>
+            <span className="block text-base font-black tracking-wide text-slate-950">PrendaExacta</span>
+            <span className="block text-[9px] font-bold uppercase tracking-[0.22em] text-slate-500">Hecho en Lima</span>
           </span>
         </Link>
 

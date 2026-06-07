@@ -262,7 +262,7 @@ export function Garment3DViewer({ garment, colorHex, colorName, productName, fab
   return (
     <div>
       <div
-        className={`relative h-[460px] touch-none overflow-hidden rounded-lg bg-[radial-gradient(circle_at_30%_15%,#ffffff,#f8fbff_54%,#eef4fb)] sm:h-[560px] ${
+        className={`relative h-[300px] touch-none overflow-hidden rounded-lg bg-[radial-gradient(circle_at_30%_15%,#ffffff,#f8fbff_54%,#eef4fb)] sm:h-[360px] ${
           activeMode === "garment" ? (isDragging ? "cursor-grabbing" : "cursor-grab") : ""
         }`}
         onPointerDown={startDrag}
@@ -309,12 +309,12 @@ export function Garment3DViewer({ garment, colorHex, colorName, productName, fab
           {colorName}
           <span className="h-3 w-3 rounded-full" style={{ backgroundColor: colorHex }} />
         </div>
-        <div className="absolute bottom-4 left-4 rounded-lg bg-white/92 px-3 py-2 text-xs font-semibold leading-5 text-slate-600 shadow-sm">
+        <div className="absolute bottom-3 left-3 rounded-lg bg-white/92 px-3 py-1.5 text-xs font-semibold leading-5 text-slate-600 shadow-sm">
           {activeMode === "fabric" ? fabric ?? "Textura de tela" : `Arrastra para girar · ${activeView}`}
         </div>
       </div>
 
-      <div className="mt-4 grid grid-cols-4 gap-3">
+      <div className="mt-2 grid grid-cols-4 gap-2">
         {thumbnailViews.map((item) => {
           const thumbAsset = getGarmentViewAssetByView(garment, colorName, item.view);
           const selected = activeMode === item.mode && (item.mode === "fabric" || getClosestViewByAngle(angle) === item.view);
@@ -323,7 +323,7 @@ export function Garment3DViewer({ garment, colorHex, colorName, productName, fab
               key={item.label}
               type="button"
               onClick={() => chooseView(item.mode, item.angle)}
-              className={`rounded-lg border bg-white p-2 text-center text-xs font-bold transition ${
+              className={`rounded-lg border bg-white p-1.5 text-center text-xs font-bold transition ${
                 selected ? "border-blue-700 text-blue-700 ring-2 ring-blue-100" : "border-slate-200 text-slate-600 hover:border-blue-300"
               }`}
             >
@@ -339,7 +339,7 @@ export function Garment3DViewer({ garment, colorHex, colorName, productName, fab
         })}
       </div>
 
-      <p className="mt-3 rounded-lg border border-blue-100 bg-blue-50 px-3 py-2 text-xs font-semibold leading-5 text-blue-950">
+      <p className="mt-2 rounded-lg border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-semibold leading-5 text-blue-950">
         Vista referencial. El acabado final puede variar según tela y confección.
       </p>
     </div>
