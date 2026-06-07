@@ -1,12 +1,13 @@
 import Image from "next/image";
 import { MapPin, Star } from "lucide-react";
 import type { Provider } from "@/data/providers";
+import { publicPath } from "@/lib/publicPath";
 
 export function ProviderCard({ provider }: { provider: Provider }) {
   return (
     <article className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
       <div className="relative h-40 bg-slate-100">
-        <Image src="/assets/prendaexacta-assets.png" alt="" fill sizes="360px" className="object-cover" style={{ objectPosition: "right center" }} />
+        <Image src={publicPath("/assets/prendaexacta-assets.png")} alt="" fill sizes="360px" className="object-cover" style={{ objectPosition: "right center" }} />
       </div>
       <div className="p-5">
         <div className="flex items-start justify-between gap-3">

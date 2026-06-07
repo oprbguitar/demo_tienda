@@ -1,4 +1,5 @@
 import type { GarmentType } from "@/data/garments";
+import { publicPath } from "@/lib/publicPath";
 
 export type GarmentAssetType = "shirt" | "pants" | "sport";
 export type GarmentViewKey = "front" | "front-3q-right" | "right" | "back" | "left" | "front-3q-left" | "fabric-detail";
@@ -104,8 +105,8 @@ export function getGarmentViewAsset(garmentType: GarmentType, colorName: string,
     garment,
     color,
     view,
-    path: `/assets/garments/${garment}/${color}/${view}.png`,
-    fallbackPath: `/assets/garments/${garment}/gray/${view}.png`,
+    path: publicPath(`/assets/garments/${garment}/${color}/${view}.png`),
+    fallbackPath: publicPath(`/assets/garments/${garment}/gray/${view}.png`),
   };
 }
 
@@ -117,7 +118,7 @@ export function getGarmentViewAssetByView(garmentType: GarmentType, colorName: s
     garment,
     color,
     view,
-    path: `/assets/garments/${garment}/${color}/${view}.png`,
-    fallbackPath: `/assets/garments/${garment}/gray/${view}.png`,
+    path: publicPath(`/assets/garments/${garment}/${color}/${view}.png`),
+    fallbackPath: publicPath(`/assets/garments/${garment}/gray/${view}.png`),
   };
 }

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { garmentAssetColors, garmentViews, type GarmentAssetType } from "@/lib/garmentAssets";
+import { publicPath } from "@/lib/publicPath";
 
 const garments: Array<{ key: GarmentAssetType; label: string }> = [
   { key: "shirt", label: "Camisa" },
@@ -49,7 +50,7 @@ export default function AssetPreviewPage() {
                         <figure key={`${garment.key}-${color}-${view}`} className="rounded-lg border border-slate-200 bg-slate-50 p-2">
                           <div className="relative aspect-square overflow-hidden rounded-md bg-white">
                             <Image
-                              src={`/assets/garments/${garment.key}/${color}/${view}.png`}
+                              src={publicPath(`/assets/garments/${garment.key}/${color}/${view}.png`)}
                               alt={`${garment.label} ${color} ${view}`}
                               fill
                               sizes="180px"

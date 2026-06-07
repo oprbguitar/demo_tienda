@@ -4,6 +4,20 @@ PrendaExacta es un prototipo web responsive para configurar ropa masculina a med
 
 El proyecto esta construido con Next.js, TypeScript y Tailwind CSS, con datos simulados preparados para una futura integracion con Supabase.
 
+## Web publicada
+
+GitHub Pages:
+
+```txt
+https://oprbguitar.github.io/demo_tienda/
+```
+
+Repositorio:
+
+```txt
+https://github.com/oprbguitar/demo_tienda
+```
+
 ## Funcionalidades
 
 - Pagina principal comercial para hombres en Lima.
@@ -179,9 +193,34 @@ Tambien existe un importador local desde contact sheets premium:
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/import-premium-garment-sheets.ps1
 ```
 
-## Despliegue recomendado
+## Despliegue en GitHub Pages
 
-La forma mas directa de publicar la web es Vercel:
+El repositorio incluye un workflow en:
+
+```txt
+.github/workflows/github-pages.yml
+```
+
+Cada push a `main` genera una exportacion estatica de Next.js y la publica en GitHub Pages.
+
+URL esperada:
+
+```txt
+https://oprbguitar.github.io/demo_tienda/
+```
+
+Configuracion usada para Pages:
+
+```txt
+GITHUB_PAGES=true
+NEXT_PUBLIC_BASE_PATH=/demo_tienda
+```
+
+El archivo `next.config.ts` aplica `basePath`, `assetPrefix`, `output: "export"` e imagenes sin optimizacion cuando se despliega en GitHub Pages.
+
+## Despliegue alternativo
+
+Tambien se puede publicar en Vercel:
 
 1. Subir este repositorio a GitHub.
 2. Crear un proyecto en Vercel desde el repositorio.

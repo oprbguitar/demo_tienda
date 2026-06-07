@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
+import { publicPath } from "@/lib/publicPath";
 
 export function Hero() {
   return (
@@ -37,7 +38,7 @@ export function Hero() {
       </div>
       <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-xl">
         <div className="relative aspect-[1.1] overflow-hidden rounded-lg bg-slate-50">
-          <Image src="/assets/prendaexacta-reference.png" alt="Referencia visual de PrendaExacta" fill priority sizes="(min-width: 1024px) 560px, 100vw" className="object-cover" />
+          <Image src={publicPath("/assets/prendaexacta-reference.png")} alt="Referencia visual de PrendaExacta" fill priority sizes="(min-width: 1024px) 560px, 100vw" className="object-cover" />
         </div>
       </div>
     </section>
