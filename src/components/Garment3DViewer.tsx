@@ -125,7 +125,7 @@ export function Garment3DViewer({ garment, colorHex, colorName, productName, fab
       const rect = hostElement.getBoundingClientRect();
       const width = Math.max(rect.width, 320);
       const height = Math.max(rect.height, 360);
-      renderer.setSize(width, height, false);
+      renderer.setSize(width, height, true);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
     }
@@ -262,7 +262,7 @@ export function Garment3DViewer({ garment, colorHex, colorName, productName, fab
   return (
     <div>
       <div
-        className={`relative h-[300px] touch-none overflow-hidden rounded-lg bg-[radial-gradient(circle_at_30%_15%,#ffffff,#f8fbff_54%,#eef4fb)] sm:h-[360px] ${
+        className={`relative h-[230px] touch-none overflow-hidden rounded-lg bg-[radial-gradient(circle_at_30%_15%,#ffffff,#f8fbff_54%,#eef4fb)] sm:h-[340px] lg:h-[360px] ${
           activeMode === "garment" ? (isDragging ? "cursor-grabbing" : "cursor-grab") : ""
         }`}
         onPointerDown={startDrag}
@@ -281,7 +281,7 @@ export function Garment3DViewer({ garment, colorHex, colorName, productName, fab
             fill
             sizes="(min-width: 1024px) 420px, 100vw"
             draggable={false}
-            className={`pointer-events-none z-10 scale-125 select-none object-contain p-2 transition-opacity duration-300 ${
+            className={`pointer-events-none z-10 select-none object-contain p-1 transition-opacity duration-300 sm:scale-125 sm:p-2 ${
               assetReady ? "opacity-100" : "opacity-0"
             }`}
             priority={false}
@@ -302,19 +302,19 @@ export function Garment3DViewer({ garment, colorHex, colorName, productName, fab
         {!assetReady ? (
           <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100" />
         ) : null}
-        <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
+        <div className="absolute left-3 top-3 hidden rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-black text-slate-700 shadow-sm sm:left-4 sm:top-4 sm:block sm:px-3 sm:text-xs">
           {usingFallback ? "3D fallback" : activeMode === "fabric" ? "Detalle de tela" : "Pseudo-3D multivista"}
         </div>
-        <div className="absolute right-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-xs font-black text-slate-700 shadow-sm">
+        <div className="absolute right-3 top-3 hidden items-center gap-2 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-black text-slate-700 shadow-sm sm:right-4 sm:top-4 sm:inline-flex sm:px-3 sm:text-xs">
           {colorName}
           <span className="h-3 w-3 rounded-full" style={{ backgroundColor: colorHex }} />
         </div>
-        <div className="absolute bottom-3 left-3 rounded-lg bg-white/92 px-3 py-1.5 text-xs font-semibold leading-5 text-slate-600 shadow-sm">
+        <div className="absolute bottom-2 left-2 hidden rounded-lg bg-white/92 px-2.5 py-1 text-[10px] font-semibold leading-4 text-slate-600 shadow-sm sm:bottom-3 sm:left-3 sm:block sm:px-3 sm:py-1.5 sm:text-xs sm:leading-5">
           {activeMode === "fabric" ? fabric ?? "Textura de tela" : `Arrastra para girar · ${activeView}`}
         </div>
       </div>
 
-      <div className="mt-2 grid grid-cols-4 gap-2">
+      <div className="mt-2 grid grid-cols-4 gap-1.5 sm:gap-2">
         {thumbnailViews.map((item) => {
           const thumbAsset = getGarmentViewAssetByView(garment, colorName, item.view);
           const selected = activeMode === item.mode && (item.mode === "fabric" || getClosestViewByAngle(angle) === item.view);
@@ -323,23 +323,23 @@ export function Garment3DViewer({ garment, colorHex, colorName, productName, fab
               key={item.label}
               type="button"
               onClick={() => chooseView(item.mode, item.angle)}
-              className={`rounded-lg border bg-white p-1.5 text-center text-xs font-bold transition ${
+              className={`rounded-lg border bg-white p-1 text-center text-xs font-bold transition sm:p-1.5 ${
                 selected ? "border-blue-700 text-blue-700 ring-2 ring-blue-100" : "border-slate-200 text-slate-600 hover:border-blue-300"
               }`}
             >
               <span
-                className="block aspect-square rounded-md bg-slate-50 bg-contain bg-center bg-no-repeat"
+                className="block h-12 rounded-md bg-slate-50 bg-contain bg-center bg-no-repeat sm:aspect-square sm:h-auto"
                 style={{
                   backgroundImage: `url(${thumbAsset.path})`,
                 }}
               />
-              <span className="mt-2 block text-[11px] leading-4">{item.label}</span>
+              <span className="mt-1.5 block text-[10px] leading-3 sm:mt-2 sm:text-[11px] sm:leading-4">{item.label}</span>
             </button>
           );
         })}
       </div>
 
-      <p className="mt-2 rounded-lg border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-semibold leading-5 text-blue-950">
+      <p className="mt-2 rounded-lg border border-blue-100 bg-blue-50 px-3 py-1.5 text-[11px] font-semibold leading-4 text-blue-950 sm:text-xs sm:leading-5">
         Vista referencial. El acabado final puede variar según tela y confección.
       </p>
     </div>

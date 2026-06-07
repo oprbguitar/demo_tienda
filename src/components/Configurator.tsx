@@ -60,26 +60,26 @@ export function Configurator({ garment, title, subtitle, options, basePrice }: C
   }
 
   return (
-    <main className="mx-auto h-[calc(100vh-56px)] max-w-[1500px] overflow-hidden px-3 py-3 sm:px-5 lg:px-6">
-      <div className="grid h-full gap-4 xl:grid-cols-[230px_minmax(0,1fr)_310px]">
+    <main className="mx-auto min-h-[calc(100svh-56px)] max-w-[1500px] overflow-visible px-3 py-3 pb-20 sm:px-5 lg:px-6 xl:h-[calc(100vh-56px)] xl:overflow-hidden xl:pb-3">
+      <div className="grid min-h-full gap-3 xl:h-full xl:grid-cols-[230px_minmax(0,1fr)_310px] xl:gap-4">
         <StepRail garment={garment} selection={selection} activeField={activeField} />
 
-        <section className="min-h-0 overflow-hidden rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <section className="min-h-0 overflow-visible rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:p-4 xl:overflow-hidden">
           <div className="flex gap-4 border-b border-slate-200 pb-3 lg:items-start lg:justify-between">
             <div>
               <Link href="/" className="text-sm font-bold text-slate-500 hover:text-blue-700">← Volver</Link>
-              <h1 className="mt-2 text-2xl font-black tracking-tight text-slate-950">{title}</h1>
-              <p className="mt-1 max-w-2xl text-sm leading-5 text-slate-600">{subtitle}</p>
+              <h1 className="mt-2 text-2xl font-black leading-tight tracking-tight text-slate-950 sm:text-2xl">{title}</h1>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:leading-5">{subtitle}</p>
             </div>
             <button className="hidden h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-200 px-4 text-sm font-black text-blue-700 shadow-sm hover:border-blue-300 hover:bg-blue-50 lg:inline-flex">
               <Bookmark size={17} /> Guardar
             </button>
           </div>
 
-          <div className="grid min-h-0 gap-5 py-4 lg:grid-cols-[minmax(260px,0.86fr)_minmax(320px,1fr)]">
+          <div className="grid min-h-0 gap-4 py-3 lg:grid-cols-[minmax(260px,0.86fr)_minmax(320px,1fr)] lg:gap-5 lg:py-4">
             <section className="lg:border-r lg:border-slate-200 lg:pr-7">
               <div className="mb-2 flex items-center justify-between gap-3">
-                <h2 className="text-lg font-black text-slate-950">Vista previa</h2>
+                <h2 className="text-[22px] font-black leading-tight text-slate-950 sm:text-lg">Vista previa</h2>
                 <span className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-xs font-bold text-slate-600">
                   {selection.color}
                   <span className="h-3 w-3 rounded-full" style={{ backgroundColor: colorHex }} />
@@ -114,7 +114,7 @@ export function Configurator({ garment, title, subtitle, options, basePrice }: C
           </div>
 
           <div className="flex justify-center border-t border-slate-200 pt-3">
-            <Link href="/medidas" className="inline-flex h-10 min-w-72 items-center justify-center gap-2 rounded-lg bg-blue-700 px-6 text-sm font-black text-white shadow-sm hover:bg-blue-800">
+            <Link href="/medidas" className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-blue-700 px-6 text-sm font-black text-white shadow-sm hover:bg-blue-800 sm:w-auto sm:min-w-72 xl:h-10">
               Continuar a medidas <Ruler size={17} />
             </Link>
           </div>
