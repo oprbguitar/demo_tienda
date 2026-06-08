@@ -93,14 +93,7 @@ export default function Home() {
         </section>
 
         <section className="relative h-72 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-          <Image
-            src={publicPath("/assets/home-tailor-hero.svg")}
-            alt="Pantalón, telas y herramientas de confección"
-            fill
-            priority
-            sizes="100vw"
-            className="object-contain p-3"
-          />
+          <TailorHeroVisual compact />
         </section>
 
         <section className="grid grid-cols-3 gap-2">
@@ -156,16 +149,61 @@ function HeroPanel() {
       </div>
 
       <div className="relative min-h-0 bg-gradient-to-r from-white via-blue-50/40 to-white">
-        <Image
-          src={publicPath("/assets/home-tailor-hero.svg")}
-          alt="Pantalón, telas, cinta métrica y paleta de colores"
-          fill
-          priority
-          sizes="620px"
-          className="object-contain object-center p-4"
-        />
+        <TailorHeroVisual />
       </div>
     </section>
+  );
+}
+
+function TailorHeroVisual({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className="absolute inset-0 overflow-hidden bg-white">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_48%,#eef5ff_0%,#ffffff_58%)]" />
+
+      <div className={`absolute ${compact ? "left-8 top-12 h-20 w-28" : "left-14 top-28 h-24 w-36"} rounded-full border-[12px] border-slate-200 bg-transparent shadow-lg`}>
+        <span className="absolute left-4 top-5 text-xs font-black text-slate-500">cm</span>
+        <span className="absolute bottom-3 left-8 h-0.5 w-16 rotate-6 bg-slate-400" />
+      </div>
+
+      <div className={`absolute ${compact ? "bottom-12 left-12 h-16 w-40" : "bottom-16 left-24 h-24 w-52"} rotate-[-13deg] rounded-sm bg-blue-300 shadow-xl`}>
+        <span className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,.25)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,.25)_1px,transparent_1px)] bg-[length:14px_14px]" />
+      </div>
+      <div className={`absolute ${compact ? "bottom-6 left-20 h-14 w-36" : "bottom-8 left-36 h-20 w-48"} rotate-[-18deg] rounded-sm bg-slate-500 shadow-xl`} />
+
+      <div className={`absolute ${compact ? "right-8 top-16 h-36 w-28" : "right-16 top-28 h-56 w-36"} rotate-[-18deg] rounded-sm bg-slate-100 shadow-xl`} />
+      <div className={`absolute ${compact ? "right-12 top-20 h-32 w-24" : "right-24 top-32 h-52 w-32"} rotate-[-18deg] rounded-sm bg-blue-950 shadow-xl`} />
+      <div className={`absolute ${compact ? "right-16 top-24 h-28 w-20" : "right-32 top-40 h-44 w-28"} rotate-[-18deg] rounded-sm bg-white shadow-lg`} />
+
+      <div className={`absolute ${compact ? "right-8 top-24 h-32 w-14" : "right-12 top-44 h-44 w-20"} rotate-[18deg] rounded-xl bg-white shadow-xl`}>
+        {["#d8c0aa", "#e8edf4", "#9eb8d3", "#263b60", "#0f2548"].map((color, index) => (
+          <span
+            key={color}
+            className="absolute left-2 right-2 h-5 rounded-sm"
+            style={{ top: compact ? 12 + index * 21 : 18 + index * 28, backgroundColor: color }}
+          />
+        ))}
+      </div>
+
+      <div className={`absolute left-1/2 top-1/2 ${compact ? "h-[240px] w-[210px] -translate-x-1/2 -translate-y-[45%]" : "h-[420px] w-[330px] -translate-x-1/2 -translate-y-[45%]"}`}>
+        <Image
+          src={publicPath("/assets/hero-pants-navy-transparent.png")}
+          alt="Pantalón azul marino a medida"
+          fill
+          priority
+          sizes={compact ? "260px" : "420px"}
+          className="object-contain drop-shadow-2xl"
+        />
+      </div>
+
+      <span className={`absolute ${compact ? "right-10 bottom-8 h-9 w-9" : "right-20 bottom-12 h-12 w-12"} rounded-full bg-slate-950 shadow-xl`}>
+        <span className="absolute inset-2 rounded-full border-2 border-slate-700" />
+        <span className="absolute left-3 top-3 h-1.5 w-1.5 rounded-full bg-slate-500" />
+        <span className="absolute bottom-3 right-3 h-1.5 w-1.5 rounded-full bg-slate-500" />
+      </span>
+      <span className={`absolute ${compact ? "right-20 bottom-12 h-8 w-8" : "right-40 bottom-20 h-10 w-10"} rounded-full bg-slate-950 shadow-xl`}>
+        <span className="absolute inset-2 rounded-full border-2 border-slate-700" />
+      </span>
+    </div>
   );
 }
 
