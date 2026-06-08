@@ -14,7 +14,6 @@ import {
   Scissors,
   Shirt,
   Star,
-  Truck,
   type LucideIcon,
 } from "lucide-react";
 import { Header } from "@/components/Header";
@@ -139,7 +138,7 @@ export default function Home() {
 function HeroPanel() {
   return (
     <section className="grid min-h-0 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm xl:grid-cols-[0.9fr_1.1fr]">
-      <div className="flex flex-col justify-between px-12 py-9">
+      <div className="flex flex-col justify-center px-12 py-9">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-black uppercase tracking-[0.12em] text-blue-700">
             <BadgeCheck size={14} /> Hecho en Lima
@@ -153,21 +152,6 @@ function HeroPanel() {
           <Link href="/configurar/camisa" className="mt-7 inline-flex h-12 items-center gap-4 rounded-lg bg-blue-700 px-7 text-base font-black text-white shadow-lg shadow-blue-700/20 transition hover:bg-blue-800">
             Comenzar a diseñar <ArrowRight size={20} />
           </Link>
-        </div>
-
-        <div className="grid max-w-lg grid-cols-3 gap-4">
-          {[
-            ["A tu medida", Ruler],
-            ["Talleres verificados", BadgeCheck],
-            ["Entrega segura", Truck],
-          ].map(([label, Icon]) => (
-            <div key={String(label)} className="text-center">
-              <span className="mx-auto grid h-12 w-12 place-items-center rounded-lg bg-blue-50 text-blue-800">
-                <Icon size={26} />
-              </span>
-              <p className="mt-2 text-xs font-bold text-slate-600">{String(label)}</p>
-            </div>
-          ))}
         </div>
       </div>
 
