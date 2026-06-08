@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="PrendaExacta logo">
+  <defs>
+    <linearGradient id="hanger" x1="120" x2="300" y1="116" y2="276" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ff9f1c"/>
+      <stop offset="1" stop-color="#f57c00"/>
+    </linearGradient>
+    <linearGradient id="bag" x1="308" x2="446" y1="188" y2="386" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f7dfb8"/>
+      <stop offset=".72" stop-color="#ffd169"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#0f172a" flood-opacity=".18"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" fill="none"/>
+  <g filter="url(#softShadow)" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M160 184c44-18 76-33 96-48 16-12 22-27 14-40-8-14-29-13-40 1-7 9-8 19-6 28" fill="none" stroke="url(#hanger)" stroke-width="22"/>
+    <path d="M159 184h164" fill="none" stroke="url(#hanger)" stroke-width="18"/>
+    <path d="M306 184l-58 32-94 34" fill="none" stroke="url(#hanger)" stroke-width="16"/>
+    <path d="M340 382h95l-16-185h-72l-15 170c0 8 4 15 8 15Z" fill="url(#bag)" stroke="#203247" stroke-width="16"/>
+    <path d="M352 205c2-40 20-62 46-62 25 0 43 23 45 62" fill="none" stroke="#f7dfb8" stroke-width="20"/>
+    <path d="M190 208l-72 40 36 80 42-18-6 102h154l-6-102 42 18 36-80-72-40-44 14c-23 9-50 9-73 0l-37-14Z" fill="#f8fafc" stroke="#203247" stroke-width="18"/>
+    <path d="M220 221c12 18 41 24 68 0" fill="none" stroke="#203247" stroke-width="12"/>
+    <path d="M198 303l-6 109M338 303l6 109" fill="none" stroke="#203247" stroke-width="10" opacity=".75"/>
+  </g>
+</svg>

@@ -60,7 +60,7 @@ export function Configurator({ garment, title, subtitle, options, basePrice }: C
   }
 
   return (
-    <main className="mx-auto min-h-[calc(100svh-56px)] max-w-[1500px] overflow-visible px-3 py-3 pb-20 sm:px-5 lg:px-6 xl:h-[calc(100vh-56px)] xl:overflow-hidden xl:pb-3">
+    <main className="mx-auto min-h-[calc(100svh-64px)] max-w-[1500px] overflow-visible px-3 py-3 pb-20 sm:px-5 lg:px-6 xl:h-[calc(100vh-64px)] xl:overflow-hidden xl:pb-3">
       <div className="grid min-h-full gap-3 xl:h-full xl:grid-cols-[230px_minmax(0,1fr)_310px] xl:gap-4">
         <StepRail garment={garment} selection={selection} activeField={activeField} />
 
